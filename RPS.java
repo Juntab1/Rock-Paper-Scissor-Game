@@ -1,4 +1,6 @@
 import java.util.*;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;  
 
 public class RPS{
     public static int userInput;
@@ -16,6 +18,7 @@ public class RPS{
         choices[1] = "PAPER";
         choices[2] = "SCISSORS";
         Random rand = new Random();
+        tellTime();
         System.out.println("Welcome to my rock paper scissors game!");
         System.out.println("Let us get started!");
         askUser(input, rand, choices);
@@ -66,5 +69,11 @@ public class RPS{
     public static void incorrectValue(Scanner input, Random rand, String[] choices){
         System.out.println("Enter an acceptable value!");
         askUser(input, rand, choices);
+    }
+
+    public static void tellTime(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
     }
 }
