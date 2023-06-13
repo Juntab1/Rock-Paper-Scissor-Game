@@ -3,6 +3,7 @@ import java.util.*;
 public class RPS{
     public static int userInput;
     public static int numChosen;
+    public static String playAgain;
 
     public RPS(){
         userInput = -1;
@@ -17,43 +18,53 @@ public class RPS{
         Random rand = new Random();
         System.out.println("Welcome to my rock paper scissors game!");
         System.out.println("Let us get started!");
-        askUser(input, rand);
-        // fix the error of if a user inputs a number greater than 3 they should get an try again!
+        askUser(input, rand, choices);
+    }
+
+    public static void askUser(Scanner input, Random rand, String[] choices){
+        System.out.println("Rock is 0? Paper is 1? Scissors is 2? -->");
+        userInput = input.nextInt();
+        numChosen = rand.nextInt(0,3);
         if ( 3 > userInput && userInput >= 0 && 3 > numChosen && numChosen >= 0){
             System.out.println("You chose " + choices[userInput] + " and the computer chose " + choices[numChosen]);
             if (userInput == numChosen){
                 System.out.println("That is a draw! Chose again!");
-                askUser(input, rand);
+                askUser(input, rand, choices);
             }
-            else if (userInput == 0 && numChosen == 1){
+            else if ((userInput == 0 && numChosen == 1) || (userInput == 1 && numChosen == 2) || (userInput == 2 && numChosen == 0)){
                 System.out.println("You have lost!");
+                playAgain(input, rand, choices);
             }
-            else if (userInput == 0 && numChosen == 2){
+            else if ((userInput == 0 && numChosen == 2) || (userInput == 1 && numChosen == 0) || (userInput == 2 && numChosen == 1)){
                 System.out.println("You have Won!");
-            }
-            else if (userInput == 1 && numChosen == 0){
-                System.out.println("You have Won!");
-            }
-            else if (userInput == 1 && numChosen == 2){
-                System.out.println("You have Lost!");
-            }
-            else if (userInput == 2 && numChosen == 0){
-                System.out.println("You have Lost!");
-            }
-            else if (userInput == 2 && numChosen == 1){
-                System.out.println("You have Won!");
+                playAgain(input, rand, choices);
             }
             else{
-                System.out.println("Enter an acceptable value!");
-                askUser(input, rand);
+                incorrectValue(input, rand, choices);
             }
         }
-
+        else{
+            incorrectValue(input, rand, choices);
+        }
     }
 
-    public static void askUser(Scanner input, Random rand){
-        System.out.println("Rock is 0? Paper is 1? Scissors is 2? -->");
-        userInput = input.nextInt();
-        numChosen = rand.nextInt(2);
+    public static void playAgain(Scanner input, Random rand, String[] choices){
+        System.out.println("Play again? Y or N:");
+        playAgain = input.next();
+        if (playAgain.equals("Y")){
+            askUser(input, rand, choices);
+        }
+        else if (playAgain.equals("N")){
+            System.exit(0);
+        }
+        else{
+            System.out.println("Enter an acceptable answer \"Y\" or \"N\" please!");
+            playAgain(input, rand, choices);
+        }
+    }
+
+    public static void incorrectValue(Scanner input, Random rand, String[] choices){
+        System.out.println("Enter an acceptable value!");
+        askUser(input, rand, choices);
     }
 }
